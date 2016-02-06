@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import commands
 import sys
 import re
@@ -5,14 +7,15 @@ import argparse
 
 def main(flags, problemSize):
     #Create and execute command
-    cmdString = '/homes/phjk/simplesim-wattch/sim-outorder %s ./SSCA2 %s'%(flags, problemSize)
+    cmdString = '/homes/phjk/simplesim-wattch/sim-outorder %s SSCA2v2.2/SSCA2 %s'%(flags, problemSize)
     res = str(commands.getstatusoutput(cmdString))
-    
+     
     #Parse output
     regex = r'(\w+|\w+.\w+)(\s+)([-+]?\d*\.\d+|\d+)(\s+)#'
     
     results = []
     for line in res.split("\\n"):
+        print line 
         match = re.search(regex, line)
         if match:
             results.append((match.group(1), match.group(3)))
