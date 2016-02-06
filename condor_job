@@ -6,9 +6,9 @@
 
 universe        = vanilla
 executable      = ./run.py
-output          = uname.$(Process).out
-error           = uname.$(Process).err
-log             = uname.log
+output          = /tmp/uname.$(Process).out
+error           = /tmp/uname.$(Process).err
+log             = /tmp/uname.log
 Priority        = high 
 # This specifies what commandline arguments should be passed to the executable.
 arguments       = -n -m -p
