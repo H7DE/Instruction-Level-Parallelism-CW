@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SCALE=7
+
+/homes/phjk/simplesim-wattch/sim-outorder $SSFLAGS ./SSCA2v2.2/SSCA2 $SCALE

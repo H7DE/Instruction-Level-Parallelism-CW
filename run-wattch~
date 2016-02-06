@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/homes/phjk/simplesim-wattch/sim-outorder $SSFLAGS ./susan.ss Ins/input_large.pgm Outs/large.pgm -e
