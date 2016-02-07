@@ -19,14 +19,12 @@ def main(flags, problemSize, saveLogFile=False):
 
     #Parse output
     regex = r'(\w+|\w+.\w+)(\s+)([-+]?\d*\.\d+|\d+)(\s+)#'
-
     results = {}
     for line in res.split("\\n"):
         print line 
         match = re.search(regex, line)
         if match:
             results[match.group(1)]=float(match.group(3))
-    print results["total_power"]
 
     #Add results to database
     db_exist = os.path.exists(db_filename)
@@ -40,9 +38,9 @@ def main(flags, problemSize, saveLogFile=False):
             cursor.execute('insert or ignore into simulation values (?,?,?)', (flags, problemSize, results["total_power"]))
             conn.commit()
     if saveLogFile:
-        id = "flags="+ "<" + flags +">"+ "_"+"size="+ "<" + str(problemSize) + ">"+ "_" + time.strftime("%d_%m_%Y_%H_%M") + ".log"
-        print id
-        with open(id, 'w') as logFile:
+        bitbucketPath='/vol/bitbucket/rh2512/arch/'
+        id = "flags="+ "__" + flags +"__"+"size="+ "__" + str(problemSize) + "__"+ "time=" + time.strftime("%d_%m_%Y_%H_%M") + ".log"
+        with open(bitbucketPath+id, 'w') as logFile:
             logFile.write(res)
 
 
@@ -63,9 +61,6 @@ if __name__ == "__main__":
 
     flags = sys.argv[1]
     problemSize = sys.argv[2]
-
-    #print flags, problemSize
-
     main(flags, problemSize, True)
 
     """
