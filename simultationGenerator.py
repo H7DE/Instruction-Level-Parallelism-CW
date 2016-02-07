@@ -31,5 +31,5 @@ if __name__ == "__main__":
 			commandString = ""
 			for i in range(len(listOfFlags)):
 				commandString = commandString + " " + listOfFlags[i][0] + " " + str(values[i])
-				condor.write("arguments   =\"%s\"  7\n"%(commandString))#flags , problem size
+				condor.write("arguments   =\"\'%s\'  \'7\'\"\n"%(commandString))#flags , problem size
 				condor.write("queue 1\n")
