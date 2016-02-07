@@ -6,11 +6,13 @@ import re
 import argparse
 import os
 import sqlite3
+import time
+
 
 db_filename="arch.db"
 schema_filename="schema.sql"
 
-def main(flags, problemSize):
+def main(flags, problemSize, saveLogFile=False):
     #Create and execute command
     cmdString = '/homes/phjk/simplesim-wattch/sim-outorder %s SSCA2v2.2/SSCA2 %s'%(flags, problemSize)
     res = str(commands.getstatusoutput(cmdString))
@@ -37,6 +39,14 @@ def main(flags, problemSize):
             cursor = conn.cursor()
             cursor.execute('insert or ignore into simulation values (?,?,?)', (flags, problemSize, results["total_power"]))
             conn.commit()
+    if saveLogFile:
+        id = "flags="+ "<" + flags +">"+ "_"+"size="+ "<" + str(problemSize) + ">"+ "_" + time.strftime("%d_%m_%Y_%H_%M") + ".log"
+        print id
+        with open(id, 'w') as logFile:
+            logFile.write(res)
+
+
+        #open('/vol/bitbucket/rh2512/arch/')
 
 
     #print results
@@ -56,7 +66,7 @@ if __name__ == "__main__":
 
     #print flags, problemSize
 
-    main(flags, problemSize)
+    main(flags, problemSize, True)
 
     """
     parser = argparse.ArgumentParser(description=usage)
