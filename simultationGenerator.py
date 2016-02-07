@@ -5,10 +5,10 @@ listOfFlags=['-fetch:ifqsize',  '-ruu:size', '-lsq:size', '-mem:width', '-res:ia
 """
 
 limit = 2
-listOfFlags=[('-fetch:ifqsize', [x for x in range(1, limit)]),
-		('-ruu:size', [x for x in range(1, limit)]),
+listOfFlags=[('-fetch:ifqsize', [x for x in range(1, 10)]),
+		('-ruu:size', [x**2 for x in range(2, 3)]),
 		('-lsq:size', [x for x in range(1, limit)]), 
-		('-mem:width',[x for x in range(1, limit)]),
+		('-mem:width',[x*32 for x in range(1, 3)]),
 		('-res:ialu', [x for x in range(1, limit)]),
 		('-res:imult',[x for x in range(1, limit)]),
 		('-res:fpalu',[x for x in range(1, limit)]),
@@ -31,5 +31,5 @@ if __name__ == "__main__":
 			commandString = ""
 			for i in range(len(listOfFlags)):
 				commandString = commandString + " " + listOfFlags[i][0] + " " + str(values[i])
-				condor.write("arguments   =\"\'%s\'  \'7\'\"\n"%(commandString))#flags , problem size
+				condor.write("arguments   =\"\'%s\'  7\"\n"%(commandString))#flags , problem size
 				condor.write("queue 1\n")
