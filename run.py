@@ -4,26 +4,45 @@ import commands
 import sys
 import re
 import argparse
+import os
+import sqlite3
+
+db_filename="arch.db"
+schema_filename="schema.sql"
 
 def main(flags, problemSize):
     #Create and execute command
     cmdString = '/homes/phjk/simplesim-wattch/sim-outorder %s SSCA2v2.2/SSCA2 %s'%(flags, problemSize)
     res = str(commands.getstatusoutput(cmdString))
-     
+
     #Parse output
     regex = r'(\w+|\w+.\w+)(\s+)([-+]?\d*\.\d+|\d+)(\s+)#'
-    
-    results = []
+
+    results = {}
     for line in res.split("\\n"):
         print line 
         match = re.search(regex, line)
         if match:
-            results.append((match.group(1), match.group(3)))
+            results[match.group(1)]=float(match.group(3))
+    print results["total_power"]
 
-    print results
+    #Add results to database
+    db_exist = os.path.exists(db_filename)
+    with sqlite3.connect(db_filename) as conn:
+        with open(schema_filename, 'rt') as f:
+            if not db_exist:
+                schema = f.read()
+                conn.executescript(schema)
+
+            cursor = conn.cursor()
+            cursor.execute('insert or ignore into simulation values (?,?,?)', (flags, problemSize, results["total_power"]))
+            conn.commit()
+
+
+    #print results
 
 if __name__ == "__main__":
-    
+
     usage = "usage: run.py -f <simple_scalar_flags> -s <problemSize>"
     example = "example: python run.py \"-ruu:size 8\" 9"
     helpString = usage + "\n" + example
@@ -34,7 +53,7 @@ if __name__ == "__main__":
 
     flags = sys.argv[1]
     problemSize = sys.argv[2]
- 
+
     #print flags, problemSize
 
     main(flags, problemSize)
