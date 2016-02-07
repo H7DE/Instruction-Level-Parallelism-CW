@@ -19,9 +19,9 @@ if __name__ == "__main__":
 	with open("condor.job", 'w') as condor:
 		condor.write("universe=vanilla\n")
 		condor.write("executable      = ./run.py\n")
-		condor.write("output          = /tmp/uname.$(Process).out\n")
-		condor.write("error           = /tmp/uname.$(Process).err\n")
-		condor.write("log             = /tmp/uname.log\n")
+		condor.write("output          = tmp/uname.$(Process).out\n")
+		condor.write("error           = tmp/uname.$(Process).err\n")
+		condor.write("log             = tmp/uname.log\n")
 		condor.write("Priority        = high\n") 
 
 		# This specifies what commandline arguments should be passed to the executable.

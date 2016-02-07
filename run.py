@@ -7,25 +7,32 @@ import argparse
 import os
 import sqlite3
 import time
-
+import subprocess
 
 db_filename="arch.db"
 schema_filename="schema.sql"
 
 def main(flags, problemSize, saveLogFile=False):
     #Create and execute command
-    cmdString = '/homes/phjk/simplesim-wattch/sim-outorder %s SSCA2v2.2/SSCA2 %s'%(flags, problemSize)
-    res = str(commands.getstatusoutput(cmdString))
+    FNULL = open(os.devnull, 'w')
 
+    cmdString = '/homes/phjk/simplesim-wattch/sim-outorder %s SSCA2v2.2/SSCA2 %s'%(flags, problemSize)
+    """
+    p = subprocess.Popen(['/homes/phjk/simplesim-wattch/sim-outorder', '%s SSCA2v2.2/SSCA2 %s'%(flags, problemSize)], 
+                          stdout=FNULL, stderr=subprocess.PIPE)
+    out, err = p.communicate()
+    print err
+    """
+    res = str(commands.getstatusoutput(cmdString)[1])
+    
     #Parse output
-    regex = r'(\w+|\w+.\w+)(\s+)([-+]?\d*\.\d+|\d+)(\s+)#'
+    regex = r'(\w+|\w+.\w+)(\s+)([-+]?\d*\.\d+|\d+)(\s+)(#)'
     results = {}
-    for line in res.split("\\n"):
-        print line 
+    for line in res.split("\n"):
         match = re.search(regex, line)
         if match:
-            results[match.group(1)]=float(match.group(3))
-
+            results[str(match.group(1))]=float(match.group(3))
+    
     #Add results to database
     db_exist = os.path.exists(db_filename)
     with sqlite3.connect(db_filename) as conn:
