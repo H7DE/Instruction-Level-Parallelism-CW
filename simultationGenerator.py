@@ -6,7 +6,7 @@ import math
 listOfFlags=['-fetch:ifqsize',  '-ruu:size', '-lsq:size', '-mem:width', '-res:ialu', '-res:imult', '-res:fpalu', '-res:fpmult', '-issue:inorder', '-issue:wrongpath', '-res:memports', '-fetch:mplat', '-issue:width','-bpred']
 """
 
-limit = 7
+limit = 3
 listOfFlags=[('-fetch:ifqsize', [x for x in range(1, limit)]),
 		('-ruu:size', [int(math.pow(2, x)) for x in range(2, limit)]),
 		('-lsq:size', [x for x in range(1, limit)]), 
@@ -15,6 +15,14 @@ listOfFlags=[('-fetch:ifqsize', [x for x in range(1, limit)]),
 		('-res:fpalu',[x for x in range(1, limit)]),
 		('-res:fpmult',[x for x in range(1, limit)])
 		]
+
+fetch_ifqsize = '-fetch:ifqsize'
+ruu_size = '-ruu:size'
+lsq_size = '-lsq:size'
+res_ialu = '-res:ialu'
+res_imult ='-res:imult'
+res_fpalu = '-res:fpalu'
+res_fpmult = '-res:fpmult'
 
 #Performs an exhaustive search with all possible parameters of simple scalar
 def runSim():
@@ -25,14 +33,20 @@ def runSim():
 	count = 0
 	for values in list(setOfParams):
 		commandString = ""
+		flagsValue = {}
+		
+		#set flags
 		for i in range(len(unzipped[0])):
 				flag = unzipped[0][i]
 				valueOfFlag = str(values[i])
 				commandString = commandString + " " + flag + " " + valueOfFlag
-		#Run three simulations for statistical significance
-		for k in range(1, 4):
+				flagsValue[flag] =  valueOfFlag
+
+		#Run three simulations for statistical significance	
+		for k in range(1, 2):
 			print "Running(%d): "%(k), commandString
-			run.main(commandString, 7)	
+			#run.main(commandString, 7, flagsValue)	
+			count = count + 1
 	print count
 if __name__ == "__main__":
 	runSim()

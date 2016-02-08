@@ -18,11 +18,11 @@ def main(flags, problemSize, flagValues=None, saveLogFile=False):
     #Create and execute command
     tmpFile = uuid.uuid4().hex + ".tmp"
     cmdString = '/homes/phjk/simplesim-wattch/sim-outorder %s ./SSCA2v2.2/SSCA2 %s 2> %s '%(flags, problemSize, tmpFile)
-   
+
 
     p = str(commands.getstatusoutput(cmdString)[1])
     res = open(tmpFile, 'r').read()
-    
+
     #Parse output
     regex = r'(\w+|\w+.\w+)(\s+)([-+]?\d*\.\d+|\d+)(\s+)(#)'
     results = {}
@@ -31,11 +31,11 @@ def main(flags, problemSize, flagValues=None, saveLogFile=False):
         match = re.search(regex, line)
         if match:
             results[str(match.group(1))]=float(match.group(3))
-   
+
     #print results
     os.remove(tmpFile)
    #sys.exit(0)
-   
+
     #Add results to database
     db_exist = os.path.exists(db_filename)
     with sqlite3.connect(db_filename) as conn:
@@ -48,7 +48,17 @@ def main(flags, problemSize, flagValues=None, saveLogFile=False):
                 cursor = conn.cursor()
                 print "Total energy:", results["total_power"]
                 if not flagValues:
-                    cursor.execute('insert or ignore into simulation values (?,?,?)', (flags, problemSize, results["total_power"], flagValues["fetch_ifqsize"], flagValues["ruu_size"],flagValues[""] ))
+                    cursor.execute('insert or ignore into simulation values (?,?,?,?,?,?,?,?,?,?)', (flags, 
+                        problemSize,
+                        results["total power cycle cc1"],
+                        flagsValue[fetch_ifqsize],
+                        flagsValue[ruu_size],
+                        flagsValue[lsq_size],
+                        flagsValue[res_ialu],
+                        flagsValue[res_imult],
+                        flagsValue[fpalu],
+                        flagsValue[fpmult]))
+
                 else:
                     cursor.execute('insert or ignore into simulation values (?,?,?)', (flags, problemSize, results["total_power"]))
                 conn.commit()
