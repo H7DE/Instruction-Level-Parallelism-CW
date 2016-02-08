@@ -9,10 +9,9 @@ listOfFlags=['-fetch:ifqsize',  '-ruu:size', '-lsq:size', '-mem:width', '-res:ia
 """
 bLimit = 5
 limit = 10
-listOfFlags=[('-fetch:ifqsize', [x for x in range(bLimit, limit, 2)]),
+listOfFlags=[('-fetch:ifqsize', [int(math.pow(2, x)) for x in range(bLimit, limit, 2)]),
 		('-ruu:size', [int(math.pow(2, x)) for x in range(bLimit, 8, 2)]),
-		('-lsq:size', [x for x in range(bLimit, limit, 2)]), 
-		('-res:ialu', [x for x in range(bLimit, limit, 2)]),
+		('-lsq:size', [int(math.pow(2, x)) for x in range(bLimit, limit, 2)]), 		  ('-res:ialu', [x for x in range(bLimit, limit, 2)]),
 		('-res:imult',[x for x in range(bLimit, limit, 2)]),
 		('-res:fpalu',[x for x in range(bLimit, limit, 2)]),
 		('-res:fpmult',[x for x in range(bLimit, limit, 2)])

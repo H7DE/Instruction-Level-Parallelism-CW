@@ -14,20 +14,20 @@ import uuid
 db_filename="arch.db"
 schema_filename="schema.sql"
 
-fetch_ifqsize = '-fetch:ifqsize'
-ruu_size = '-ruu:size'
-lsq_size = '-lsq:size'
-res_ialu = '-res:ialu'
-res_imult ='-res:imult'
-res_fpalu = '-res:fpalu'
-res_fpmult = '-res:fpmult'
+fetch_ifqsize = 'fetch:ifqsize'
+ruu_size = 'ruu:size'
+lsq_size = 'lsq:size'
+res_ialu = 'res:ialu'
+res_imult ='res:imult'
+res_fpalu = 'res:fpalu'
+res_fpmult = 'res:fpmult'
 
 def main(flags, problemSize, flagsValue, saveLogFile=False):
     #Create and execute command
     tmpFile = uuid.uuid4().hex + ".tmp"
     cmdString = '/homes/phjk/simplesim-wattch/sim-outorder %s ./SSCA2v2.2/SSCA2 %s 2> %s '%(flags, problemSize, tmpFile)
 
-
+    print cmdString
     p = str(commands.getstatusoutput(cmdString)[1])
     res = open(tmpFile, 'r').read()
 
@@ -42,9 +42,9 @@ def main(flags, problemSize, flagsValue, saveLogFile=False):
 
 
     #print results
-    #sys.exit(0)
 
     os.remove(tmpFile)
+    #sys.exit(0)
     #Add results to database
     db_exist = os.path.exists(db_filename)
     with sqlite3.connect(db_filename) as conn:
@@ -61,13 +61,13 @@ def main(flags, problemSize, flagsValue, saveLogFile=False):
                 cursor.execute('insert or ignore into simulation values (?,?,?,?,?,?,?,?,?,?)', (flags, 
                         problemSize,
                         energy,
-                        flagsValue[fetch_ifqsize],
-                        flagsValue[ruu_size],
-                        flagsValue[lsq_size],
-                        flagsValue[res_ialu],
-                        flagsValue[res_imult],
-                        flagsValue[res_fpalu],
-                        flagsValue[res_fpmult]))
+                        results[fetch_ifqsize],
+                        results[ruu_size],
+                        results[lsq_size],
+                        results[res_ialu],
+                        results[res_imult],
+                        results[res_fpalu],
+                        results[res_fpmult]))
 
                 conn.commit()
 
