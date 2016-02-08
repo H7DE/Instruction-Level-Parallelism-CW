@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import itertools
 import run
 import sys
@@ -6,7 +8,7 @@ import math
 listOfFlags=['-fetch:ifqsize',  '-ruu:size', '-lsq:size', '-mem:width', '-res:ialu', '-res:imult', '-res:fpalu', '-res:fpmult', '-issue:inorder', '-issue:wrongpath', '-res:memports', '-fetch:mplat', '-issue:width','-bpred']
 """
 
-limit = 3
+limit = 5
 listOfFlags=[('-fetch:ifqsize', [x for x in range(1, limit)]),
 		('-ruu:size', [int(math.pow(2, x)) for x in range(2, limit)]),
 		('-lsq:size', [x for x in range(1, limit)]), 
@@ -48,6 +50,7 @@ def runSim():
 			run.main(commandString, 7, flagsValue)	
 			count = count + 1
 	print count
+
 if __name__ == "__main__":
 	runSim()
 	"""

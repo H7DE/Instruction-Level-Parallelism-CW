@@ -40,10 +40,11 @@ def main(flags, problemSize, flagsValue, saveLogFile=False):
         if match:
             results[str(match.group(1))]=float(match.group(3))
 
-    #print results
-    os.remove(tmpFile)
-   #sys.exit(0)
 
+    #print results
+    #sys.exit(0)
+
+    os.remove(tmpFile)
     #Add results to database
     db_exist = os.path.exists(db_filename)
     with sqlite3.connect(db_filename) as conn:
