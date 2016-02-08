@@ -14,7 +14,15 @@ import uuid
 db_filename="arch.db"
 schema_filename="schema.sql"
 
-def main(flags, problemSize, flagValues=None, saveLogFile=False):
+fetch_ifqsize = '-fetch:ifqsize'
+ruu_size = '-ruu:size'
+lsq_size = '-lsq:size'
+res_ialu = '-res:ialu'
+res_imult ='-res:imult'
+res_fpalu = '-res:fpalu'
+res_fpmult = '-res:fpmult'
+
+def main(flags, problemSize, flagsValue, saveLogFile=False):
     #Create and execute command
     tmpFile = uuid.uuid4().hex + ".tmp"
     cmdString = '/homes/phjk/simplesim-wattch/sim-outorder %s ./SSCA2v2.2/SSCA2 %s 2> %s '%(flags, problemSize, tmpFile)
@@ -44,23 +52,22 @@ def main(flags, problemSize, flagValues=None, saveLogFile=False):
                 schema = f.read()
                 conn.executescript(schema)
 
-            if "total_power" in results:
+            if "total_power_cycle_cc1" in results:
                 cursor = conn.cursor()
-                print "Total energy:", results["total_power"]
-                if not flagValues:
-                    cursor.execute('insert or ignore into simulation values (?,?,?,?,?,?,?,?,?,?)', (flags, 
+                energy =  results["total_power_cycle_cc1"]
+
+                print "Total energy:", energy 
+                cursor.execute('insert or ignore into simulation values (?,?,?,?,?,?,?,?,?,?)', (flags, 
                         problemSize,
-                        results["total power cycle cc1"],
+                        energy,
                         flagsValue[fetch_ifqsize],
                         flagsValue[ruu_size],
                         flagsValue[lsq_size],
                         flagsValue[res_ialu],
                         flagsValue[res_imult],
-                        flagsValue[fpalu],
-                        flagsValue[fpmult]))
+                        flagsValue[res_fpalu],
+                        flagsValue[res_fpmult]))
 
-                else:
-                    cursor.execute('insert or ignore into simulation values (?,?,?)', (flags, problemSize, results["total_power"]))
                 conn.commit()
 
     #Save simulation output to bitbucket

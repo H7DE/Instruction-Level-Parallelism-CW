@@ -45,7 +45,7 @@ def runSim():
 		#Run three simulations for statistical significance	
 		for k in range(1, 2):
 			print "Running(%d): "%(k), commandString
-			#run.main(commandString, 7, flagsValue)	
+			run.main(commandString, 7, flagsValue)	
 			count = count + 1
 	print count
 if __name__ == "__main__":
