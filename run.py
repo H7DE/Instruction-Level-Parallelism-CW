@@ -14,29 +14,14 @@ import uuid
 db_filename="arch.db"
 schema_filename="schema.sql"
 
-def main(flags, problemSize, saveLogFile=False):
+def main(flags, problemSize, flagValues=None, saveLogFile=False):
     #Create and execute command
     tmpFile = uuid.uuid4().hex + ".tmp"
     cmdString = '/homes/phjk/simplesim-wattch/sim-outorder %s ./SSCA2v2.2/SSCA2 %s 2> %s '%(flags, problemSize, tmpFile)
    
 
-    """
-    FNULL = open(os.devnull, 'w')
-    cmdString = 'cd SSCA2v2.2/ && make clean && ./BuildForSimplescalar.sh && cd .. && /homes/phjk/simplesim-wattch/sim-outorder %s SSCA2v2.2/SSCA2 %s 2> %s '%(flags, problemSize, tmpFile)
-    print cmdString
-    p = subprocess.Popen(["/homes/phjk/simplesim-wattch/sim-outorder -ruu:size 2"], stdout=FNULL, stderr=subprocess.PIPE)
-    out, err = p.communicate()
-    res = str(out)
-    print err
-    out = check_output(['/homes/phjk/simplesim-wattch/sim-outorder', 
-        "-ruu:size","2", './SSCA2v2.2/SSCA2', str(problemSize)])
-
-    res = str(out)
-    """
     p = str(commands.getstatusoutput(cmdString)[1])
     res = open(tmpFile, 'r').read()
-    #print "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-    #print res
     
     #Parse output
     regex = r'(\w+|\w+.\w+)(\s+)([-+]?\d*\.\d+|\d+)(\s+)(#)'
@@ -62,7 +47,10 @@ def main(flags, problemSize, saveLogFile=False):
             if "total_power" in results:
                 cursor = conn.cursor()
                 print "Total energy:", results["total_power"]
-                cursor.execute('insert or ignore into simulation values (?,?,?)', (flags, problemSize, results["total_power"]))
+                if not flagValues:
+                    cursor.execute('insert or ignore into simulation values (?,?,?)', (flags, problemSize, results["total_power"], flagValues["fetch_ifqsize"], flagValues["ruu_size"],flagValues[""] ))
+                else:
+                    cursor.execute('insert or ignore into simulation values (?,?,?)', (flags, problemSize, results["total_power"]))
                 conn.commit()
 
     #Save simulation output to bitbucket
