@@ -7,7 +7,7 @@ import math
 """
 listOfFlags=['-fetch:ifqsize',  '-ruu:size', '-lsq:size', '-mem:width', '-res:ialu', '-res:imult', '-res:fpalu', '-res:fpmult', '-issue:inorder', '-issue:wrongpath', '-res:memports', '-fetch:mplat', '-issue:width','-bpred']
 """
-bLimit = 5
+bLimit = 1
 limit = 9
 listOfFlags=[('-fetch:ifqsize', [int(math.pow(2, x)) for x in range(bLimit, limit, 2)]),
 		('-ruu:size', [int(math.pow(2, x)) for x in range(bLimit, 8, 2)]),
@@ -35,13 +35,13 @@ def runSim():
 	with open("_condor.job", 'w') as condor:
 		condor.write("universe        = vanilla\n")
 		condor.write("executable      = ./run.py\n")
-		condor.write("output          = tmp/uname.$(Process).out\n")
-		condor.write("error           = tmp/uname.$(Process).err\n")
-		condor.write("log             = tmp/uname.log\n")
+		condor.write("output          = /vol/bitbucket/rh2512/arch/uname.$(Process).out\n")
+		condor.write("error           = /vol/bitbucket/rh2512/arch/uname.$(Process).err\n")
+		condor.write("log             = /vol/bitbucket/rh2512/arch/uname.log\n")
 		condor.write("Priority        = high\n") 
 
 		count = 0
-		for values in list(setOfParams)[:3]:
+		for values in list(setOfParams):
 			commandString = ""
 			flagsValue = {}
 			
@@ -58,7 +58,7 @@ def runSim():
 				condor.write("queue 1\n")
 				#run.main(commandString, 7, flagsValue)	
 				count = count + 1
-		print count
+		print "Num jobs:",count
 
 if __name__ == "__main__":
 	runSim()
