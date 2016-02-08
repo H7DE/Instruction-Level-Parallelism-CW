@@ -1,4 +1,5 @@
 import itertools
+import run
 
 """
 listOfFlags=['-fetch:ifqsize',  '-ruu:size', '-lsq:size', '-mem:width', '-res:ialu', '-res:imult', '-res:fpalu', '-res:fpmult', '-issue:inorder', '-issue:wrongpath', '-res:memports', '-fetch:mplat', '-issue:width','-bpred']
@@ -31,5 +32,7 @@ if __name__ == "__main__":
 			commandString = ""
 			for i in range(len(listOfFlags)):
 				commandString = commandString + " " + listOfFlags[i][0] + " " + str(values[i])
-				condor.write("arguments   =\"\'%s\'  7\"\n"%(commandString))#flags , problem size
-				condor.write("queue 1\n")
+				print "Running: ", commandString
+				run.main(commandString, 7)	
+				#condor.write("arguments   =\"\'%s\'  7\"\n"%(commandString))#flags , problem size
+				#condor.write("queue 1\n")
