@@ -7,15 +7,15 @@ import math
 """
 listOfFlags=['-fetch:ifqsize',  '-ruu:size', '-lsq:size', '-mem:width', '-res:ialu', '-res:imult', '-res:fpalu', '-res:fpmult', '-issue:inorder', '-issue:wrongpath', '-res:memports', '-fetch:mplat', '-issue:width','-bpred']
 """
-
-limit = 5
-listOfFlags=[('-fetch:ifqsize', [x for x in range(1, limit)]),
-		('-ruu:size', [int(math.pow(2, x)) for x in range(2, limit)]),
-		('-lsq:size', [x for x in range(1, limit)]), 
-		('-res:ialu', [x for x in range(1, limit)]),
-		('-res:imult',[x for x in range(1, limit)]),
-		('-res:fpalu',[x for x in range(1, limit)]),
-		('-res:fpmult',[x for x in range(1, limit)])
+bLimit = 5
+limit = 10
+listOfFlags=[('-fetch:ifqsize', [x for x in range(bLimit, limit, 2)]),
+		('-ruu:size', [int(math.pow(2, x)) for x in range(bLimit, 8, 2)]),
+		('-lsq:size', [x for x in range(bLimit, limit, 2)]), 
+		('-res:ialu', [x for x in range(bLimit, limit, 2)]),
+		('-res:imult',[x for x in range(bLimit, limit, 2)]),
+		('-res:fpalu',[x for x in range(bLimit, limit, 2)]),
+		('-res:fpmult',[x for x in range(bLimit, limit, 2)])
 		]
 
 fetch_ifqsize = '-fetch:ifqsize'
@@ -47,7 +47,7 @@ def runSim():
 		#Run three simulations for statistical significance	
 		for k in range(1, 2):
 			print "Running(%d): "%(k), commandString
-			run.main(commandString, 7, flagsValue)	
+			#run.main(commandString, 7, flagsValue)	
 			count = count + 1
 	print count
 
