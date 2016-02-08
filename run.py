@@ -23,8 +23,9 @@ def main(flags, problemSize, saveLogFile=False):
     out, err = p.communicate()
     print err
     """
-    #print flags
     res = str(commands.getstatusoutput(cmdString)[1])
+    print "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+    print res
     
     #Parse output
     regex = r'(\w+|\w+.\w+)(\s+)([-+]?\d*\.\d+|\d+)(\s+)(#)'
@@ -35,7 +36,7 @@ def main(flags, problemSize, saveLogFile=False):
         if match:
             results[str(match.group(1))]=float(match.group(3))
    
-    #print results
+    print results
     #Add results to database
     db_exist = os.path.exists(db_filename)
     with sqlite3.connect(db_filename) as conn:
