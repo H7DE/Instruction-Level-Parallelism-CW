@@ -7,15 +7,16 @@ import math
 """
 listOfFlags=['-fetch:ifqsize',  '-ruu:size', '-lsq:size', '-mem:width', '-res:ialu', '-res:imult', '-res:fpalu', '-res:fpmult', '-issue:inorder', '-issue:wrongpath', '-res:memports', '-fetch:mplat', '-issue:width','-bpred']
 """
-bLimit = 1
-limit = 9
-listOfFlags=[('-fetch:ifqsize', [int(math.pow(2, x)) for x in range(bLimit, limit, 2)]),
-		('-ruu:size', [int(math.pow(2, x)) for x in range(bLimit, 8, 2)]),
-		('-lsq:size', [int(math.pow(2, x)) for x in range(bLimit, limit, 2)]),
-		('-res:ialu', [x for x in range(bLimit, limit, 2)]),
-		('-res:imult',[x for x in range(bLimit, limit, 2)]),
-		('-res:fpalu',[x for x in range(bLimit, limit, 2)]),
-		('-res:fpmult',[x for x in range(bLimit, limit, 2)])
+bLimit = 2
+limit = 8
+step = 2
+listOfFlags=[('-fetch:ifqsize', [int(math.pow(2, x)) for x in range(bLimit, limit, step)]),
+		('-ruu:size', [int(math.pow(2, x)) for x in range(bLimit, 8, step)]),
+		('-lsq:size', [int(math.pow(2, x)) for x in range(bLimit, limit, step)]),
+		('-res:ialu', [x for x in range(bLimit, limit, step)]),
+		('-res:imult',[x for x in range(bLimit, limit, step)]),
+		('-res:fpalu',[x for x in range(bLimit, limit, step)]),
+		('-res:fpmult',[x for x in range(bLimit, limit, step)])
 		]
 
 fetch_ifqsize = '-fetch:ifqsize'
@@ -52,7 +53,7 @@ def runSim():
 				commandString = commandString + " " + flag + " " + valueOfFlag
 
 			#Run three simulations for statistical significance	
-			for k in range(1, 2):
+			for k in range(1, 3):
 				#print "Running(%d): "%(k), commandString
 				condor.write("arguments = " +"\"\' %s\' \'7' \"\n"%(commandString))
 				condor.write("queue 1\n")
