@@ -1,0 +1,22 @@
+universe=vanilla
+executable      = ./sim.py
+output          = tmp/uname.$(Process).out
+error           = tmp/uname.$(Process).err
+log             = tmp/uname.log
+Priority        = high
+
+arguments       = "'-ruu:size' '[2, 4, 8, 16, 32, 64, 128, 256]' 'ruu' 'tmp/1.log'"
+queue 1
+arguments       = "'-lsq:size' '[2, 4, 8, 16, 32, 64, 128, 256]' 'lsq' 'tmp/2.log'"
+queue 1
+arguments       = "'-fetch:ifqsize' '[1, 2, 4, 8, 16, 32, 64, 128, 256]' 'ifq' 'tmp/3.log'"
+queue 1
+
+arguments       = "'-res:ialu' '[1,2,3,4,5,6,7,8]' 'ialu' 'tmp/4.log'"
+queue 1
+arguments       = "'-res:imult' '[1,2,3,4,5,6,7,8]' 'imult' 'tmp/5.log'"
+queue 1
+arguments       = "'-res:fpalu' '[1,2,3,4,5,6,7,8]' 'fpalu' 'tmp/6.log'"
+queue 1
+arguments       = "'-res:fpmult' '[1,2,3,4,5,6,7,8]' 'fpmult' 'tmp/7.log'"
+queue 1
