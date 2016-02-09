@@ -8,7 +8,7 @@ import math
 listOfFlags=['-fetch:ifqsize',  '-ruu:size', '-lsq:size', '-mem:width', '-res:ialu', '-res:imult', '-res:fpalu', '-res:fpmult', '-issue:inorder', '-issue:wrongpath', '-res:memports', '-fetch:mplat', '-issue:width','-bpred']
 """
 bLimit = 2
-limit = 8
+limit = 7
 step = 2
 listOfFlags=[('-fetch:ifqsize', [int(math.pow(2, x)) for x in range(bLimit, limit, step)]),
 		('-ruu:size', [int(math.pow(2, x)) for x in range(bLimit, 8, step)]),
@@ -53,7 +53,7 @@ def runSim():
 				commandString = commandString + " " + flag + " " + valueOfFlag
 
 			#Run three simulations for statistical significance	
-			for k in range(1, 3):
+			for k in range(1, 2):
 				#print "Running(%d): "%(k), commandString
 				condor.write("arguments = " +"\"\' %s\' \'7' \"\n"%(commandString))
 				condor.write("queue 1\n")

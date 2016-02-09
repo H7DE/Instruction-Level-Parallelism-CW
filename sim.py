@@ -49,7 +49,7 @@ def compute(flag, _xrange, _id, fileName):
 		log.write("#Flags=%s"%(flag)+'\n')
 		log.write("%s_xVals="%(_id) + str(xVals)+'\n') 
 		log.write("%s_yVals="%(_id) + str(yVals)+'\n')
-		log.write("%s_meta="%(_id) + str(results)+'\n')
+		#log.write("%s_meta="%(_id) + str(results)+'\n')
 
 powOfTwo = [int(math.pow(2,x)) for x in range(9)]
 powOfTwo2 = [int(math.pow(2,x)) for x in range(1,9)]
