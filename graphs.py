@@ -21,8 +21,6 @@ def compute(flag, _xrange, _id, fileName):
     xVals = []
     yVals = []
     
-    print _xrange
-    sys.exit(0)
     for i in _xrange:
         flags = "%s %d"%(flag, i)
         tmpFile = uuid.uuid4().hex + ".tmp"
