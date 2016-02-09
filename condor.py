@@ -1,22 +1,29 @@
 #!/usr/bin/python
 
 import itertools
-import run
+from run import *
 import sys
 import math
 """
 listOfFlags=['-fetch:ifqsize',  '-ruu:size', '-lsq:size', '-mem:width', '-res:ialu', '-res:imult', '-res:fpalu', '-res:fpmult', '-issue:inorder', '-issue:wrongpath', '-res:memports', '-fetch:mplat', '-issue:width','-bpred']
 """
-bLimit = 2
-limit = 7
-step = 2
-listOfFlags=[('-fetch:ifqsize', [int(math.pow(2, x)) for x in range(bLimit, limit, step)]),
-		('-ruu:size', [int(math.pow(2, x)) for x in range(bLimit, 8, step)]),
-		('-lsq:size', [int(math.pow(2, x)) for x in range(bLimit, limit, step)]),
-		('-res:ialu', [x for x in range(bLimit, limit, step)]),
-		('-res:imult',[x for x in range(bLimit, limit, step)]),
-		('-res:fpalu',[x for x in range(bLimit, limit, step)]),
-		('-res:fpmult',[x for x in range(bLimit, limit, step)])
+bLimit = 1
+limit = 4
+step = 1
+listOfFlags=[
+		('-fetch:ifqsize', [int(math.pow(2, x)) for x in range(1, 3, step)]),
+		('-ruu:size', [int(math.pow(2, x)) for x in range(3, 5, step)]),
+		('-lsq:size', [int(math.pow(2, x)) for x in range(3, limit, step)]),
+		('-res:ialu', [x for x in range(bLimit, 5, step)]),
+		('-res:imult',[x for x in range(bLimit, 2, step)]),
+		('-res:fpalu',[x for x in range(bLimit, 2, step)]),
+		('-res:fpmult',[x for x in range(bLimit, 2, step)]),
+		("-"+decode_width, [x for x in range(1, 5)]),
+		("-"+issue_width, [int(math.pow(2, x)) for x in range(1, 4)]),
+		("-"+commit_width, [x for x in range(2, 16)]),
+		("-"+mem_width, [int(math.pow(2, x)) for x in range(1, 4)]),
+		("-"+mem_port, [x for x in range(1, 3)]),
+		("-bpred", ["bimod -bpred:bimod 64", "2lev -bpred:2lev 1 4096 16 1"])
 		]
 
 fetch_ifqsize = '-fetch:ifqsize'
