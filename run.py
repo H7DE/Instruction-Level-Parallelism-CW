@@ -35,13 +35,13 @@ sim_cpi = "sim_CPI"
 sim_cycle = "sim_cycle"
 def main(flags, problemSize, flagsValue, saveLogFile=False):
 	#Create and execute command
-	tmpFile = uuid.uuid4().hex + ".tmp"
+	tmpFile = "tmp/"+uuid.uuid4().hex + ".tmp"
 	cmdString = '/homes/phjk/simplesim-wattch/sim-outorder %s ./SSCA2v2.2/SSCA2 %s 2> %s '%(flags, problemSize, tmpFile)
 
 	#print cmdString
 	p = str(commands.getstatusoutput(cmdString)[1])
 	res = open(tmpFile, 'r').read()
-	print res
+	#print res
 	#Parse output
 	regex = r'(\w+|\w+.\w+)(\s+)([-+]?\d*\.\d+|\d+)(\s+)(#)'
 	results = {}
